@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Map {
+
+  id String @id @default(uuid())
+  produto String
+  descricao String
+  b_o String
+  mat_med String
+  fornecedor String
+  comprador String
+  primeira_filial_rota String
+  filial_dest String
+  sigla_dest String
+  empresa_dest String
+  grupo_tributacao String
+  flag_tributacao String
+  rota String
+  codigo String
+  gui_semana_saida String
+  gui_semana_chegada String
+  modo_compra String
+  dia_sugerido_pedido DateTime
+  qtd_comprada Int
+  preco_total Decimal
+  status String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}

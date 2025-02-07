@@ -1,10 +1,9 @@
 import fastify from "fastify";
+import { csvRoutes } from "./routes/upload";
 
 const app = fastify();
 
-app.get("/", () => {
-  return "simulador mapa";
-});
+app.register(csvRoutes);
 
 app
   .listen({

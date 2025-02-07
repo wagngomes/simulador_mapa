@@ -12,10 +12,13 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^22.13.1",
+    "prisma": "^6.3.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "fast-csv": "^5.0.2",
     "fastify": "^5.2.1",
     "fastify-multer": "^2.0.3"
   }

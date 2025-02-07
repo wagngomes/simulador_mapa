@@ -1,0 +1,27 @@
+-- CreateTable
+CREATE TABLE "Map" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "produto" TEXT NOT NULL,
+    "descricao" TEXT NOT NULL,
+    "b_o" TEXT NOT NULL,
+    "mat_med" TEXT NOT NULL,
+    "fornecedor" TEXT NOT NULL,
+    "comprador" TEXT NOT NULL,
+    "primeira_filial_rota" TEXT NOT NULL,
+    "filial_dest" TEXT NOT NULL,
+    "sigla_dest" TEXT NOT NULL,
+    "empresa_dest" TEXT NOT NULL,
+    "grupo_tributacao" TEXT NOT NULL,
+    "flag_tributacao" TEXT NOT NULL,
+    "rota" TEXT NOT NULL,
+    "codigo" TEXT NOT NULL,
+    "gui_semana_saida" TEXT NOT NULL,
+    "gui_semana_chegada" TEXT NOT NULL,
+    "modo_compra" TEXT NOT NULL,
+    "dia_sugerido_pedido" DATETIME NOT NULL,
+    "qtd_comprada" INTEGER NOT NULL,
+    "preco_total" DECIMAL NOT NULL,
+    "status" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
