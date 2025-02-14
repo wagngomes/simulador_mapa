@@ -61,6 +61,7 @@ class UpLoadController {
       }
 
       res.status(200).send("Upload e processamento concluídos com sucesso.");
+      fs.unlinkSync(arquivoImportado);
       return;
     } catch (error) {
       console.error("Erro ao processar o arquivo:", error);
