@@ -30,7 +30,7 @@ model Map {
   gui_semana_saida String
   gui_semana_chegada String
   modo_compra String
-  dia_sugerido_pedido DateTime
+  dia_sugerido_pedido String
   qtd_comprada Int
   preco_total Decimal
   status String

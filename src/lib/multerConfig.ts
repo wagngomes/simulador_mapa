@@ -1,14 +1,16 @@
-import multer from "fastify-multer";
-import path from "node:path";
+import multer from "multer";
+import path from "path";
 import fs from "fs";
 
+// Caminho absoluto para o diretório de uploads
 const uploadDir: string = path.resolve(__dirname, "./uploads");
 
+// Certifique-se de que o diretório de uploads existe
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-const storage = multer.diskStorage({
+const storage: multer.StorageEngine = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, uploadDir);
   },
@@ -18,4 +20,4 @@ const storage = multer.diskStorage({
   },
 });
 
-export const upload = multer({ storage });
+export default storage;

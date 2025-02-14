@@ -1,14 +1,14 @@
-import fastify from "fastify";
-import { csvRoutes } from "./routes/upload";
+import express, { Request, Response } from "express";
+import { Express } from "express";
+import ApplicationRoutes from "./routes";
 
-const app = fastify();
+const app: Express = express();
 
-app.register(csvRoutes);
+app.use("/files", express.static("uploads"));
+ApplicationRoutes(app);
 
-app
-  .listen({
-    port: 3006,
-  })
-  .then(() => {
-    console.log("server on air");
-  });
+app.listen(3002, () => {
+  console.log("Server on port 3002");
+});
+
+export default app;

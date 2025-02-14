@@ -1,66 +1,73 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import fs from "fs";
-import { parse } from "fast-csv";
-import { PrismaClient } from "@prisma/client";
+import express, { Request, Response } from "express";
+import fs from "node:fs";
+import multer from "multer";
+import storage from "../lib/multerConfig";
+import csv from "csv";
+import { client } from "../database/client";
 
-const prisma = new PrismaClient();
+const upload: multer.Multer = multer({ storage: storage });
 
-export const importCSV = async (req: FastifyRequest, reply: FastifyReply) => {
-  const file = (req as any).file;
+interface MulterRequest extends Request {
+  file?: Express.Multer.File;
+}
 
-  if (!file) {
-    return reply.status(400).send({ message: "Nenhum arquivo enviado" });
-  }
-
-  const filePath = file.path;
-  const records: any[] = [];
-
-  fs.createReadStream(filePath)
-    .pipe(parse({ headers: true }))
-    .on("data", (row) => {
-      records.push({
-        produto: row.produto,
-        descricao: row.descricao,
-        b_o: row.b_o,
-        mat_med: row.mat_med,
-        fornecedor: row.fornecedor,
-        comprador: row.comprador,
-        primeira_filial_rota: row.primeira_filial_rota,
-        filial_dest: row.filial_dest,
-        sigla_dest: row.sigla_dest,
-        empresa_dest: row.empresa_dest,
-        grupo_tributacao: row.grupo_tributacao,
-        flag_tributacao: row.flag_tributacao,
-        rota: row.rota,
-        codigo: row.codigo,
-        gui_semana_saida: row.gui_semana_saida,
-        gui_semana_chegada: row.gui_semana_chegada,
-        modo_compra: row.modo_compra,
-        dia_sugerido_pedido: new Date(row.dia_sugerido_pedido),
-        qtd_comprada: parseInt(row.qtd_comprada),
-        preco_total: parseFloat(row.preco_total),
-        status: row.status,
-      });
-    })
-    .on("end", async () => {
-      try {
-        await prisma.map.createMany({
-          data: records,
-          //skipDuplicates: true, // Evita inserir registros duplicados
-        });
-
-        fs.unlinkSync(filePath); // Remove o arquivo após a importação
-        reply.send({
-          message: "Importação concluída com sucesso!",
-          total: records.length,
-        });
-      } catch (error) {
-        console.error("Erro ao salvar no banco:", error);
-        reply.status(500).send({ message: "Erro ao salvar os dados" });
+class UpLoadController {
+  static async uploadMap(req: MulterRequest, res: Response): Promise<void> {
+    try {
+      if (!req.file) {
+        res.status(400).send("Nenhum arquivo foi enviado.");
+        return;
       }
-    })
-    .on("error", (err) => {
-      console.error("Erro ao processar CSV:", err);
-      reply.status(500).send({ message: "Erro ao processar CSV" });
-    });
-};
+
+      const arquivoImportado = req.file.path;
+      //console.log("Arquivo recebido:", arquivoImportado)
+
+      const parser = fs
+        .createReadStream(arquivoImportado)
+        .pipe(csv.parse({ columns: true, delimiter: ";" }));
+
+      const dadosArray = [];
+
+      for await (const row of parser) {
+        const dadosTratados = {
+          produto: row.produto,
+          descricao: row.descricao,
+          b_o: row.b_o,
+          mat_med: row.mat_med,
+          fornecedor: row.fornecedor,
+          comprador: row.comprador,
+          primeira_filial_rota: row.primeira_filial_rota,
+          filial_dest: row.filial_dest,
+          sigla_dest: row.sigla_dest,
+          empresa_dest: row.empresa_dest,
+          grupo_tributacao: row.grupo_tributacao,
+          flag_tributacao: row.flag_tributacao,
+          rota: row.rota,
+          codigo: row.codigo,
+          gui_semana_saida: row.gui_semana_saida,
+          gui_semana_chegada: row.gui_semana_chegada,
+          modo_compra: row.modo_compra,
+          dia_sugerido_pedido: row.dia_sugerido_pedido,
+          qtd_comprada: Number(row.qtd_comprada) || 0,
+          preco_total: parseFloat(row.preco_total) || 0.0,
+          status: row.status,
+        };
+
+        dadosArray.push(dadosTratados);
+      }
+
+      if (dadosArray.length > 0) {
+        await client.map.createMany({ data: dadosArray });
+      }
+
+      res.status(200).send("Upload e processamento concluídos com sucesso.");
+      return;
+    } catch (error) {
+      console.error("Erro ao processar o arquivo:", error);
+      res.status(500).send("Erro ao processar o arquivo.");
+      return;
+    }
+  }
+}
+
+export default UpLoadController;

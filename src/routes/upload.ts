@@ -1,7 +1,11 @@
-import { FastifyInstance } from "fastify";
-import { importCSV } from "../controller/uploadController";
-import { upload } from "../lib/multerConfig";
+import express, { Router } from "express";
+import UpLoadController from "../controller/uploadController";
+import storage from "../lib/multerConfig";
+import multer from "multer";
 
-export async function csvRoutes(fastify: FastifyInstance) {
-  fastify.post("/import", { preHandler: upload.single("file") }, importCSV);
-}
+const importMap = express.Router();
+const upload: multer.Multer = multer({ storage: storage });
+
+importMap.post("/import", upload.single("file"), UpLoadController.uploadMap);
+
+export default importMap;
