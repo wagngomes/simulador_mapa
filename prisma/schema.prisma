@@ -11,7 +11,6 @@ datasource db {
 }
 
 model Map {
-
   id String @id @default(uuid())
   produto String
   descricao String
@@ -36,5 +35,15 @@ model Map {
   status String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  //codigo_produto Product @relation(fields: [produto], references: [codigo])
+}
+
+model Product {
+  codigo String @id 
+  descricao String
+  grp_Marca String
+  d_Grp_Marca String
+  refrig String
+  //products Map[]
 
 }
