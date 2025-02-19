@@ -4,6 +4,7 @@ import multer from "multer";
 import storage from "../lib/multerConfig";
 import csv from "csv";
 import { client } from "../database/client";
+import { mean } from "mathjs";
 
 const upload: multer.Multer = multer({ storage: storage });
 
@@ -42,10 +43,10 @@ class SaldosUpLoadController {
           bo: row.bo,
           comprador: row.comprador,
           rota: row.rota,
-          m4: row.m4,
-          m3: row.m3,
-          m2: row.m2,
-          m1: row.m1,
+          m4: Number(row.m4),
+          m3: Number(row.m3),
+          m2: Number(row.m2),
+          m1: Number(row.m1),
           forecast: row.forecast,
           estoque_in: row.estoque_in,
           estoque_livre: row.estoque_livre,
@@ -53,6 +54,7 @@ class SaldosUpLoadController {
           transferencias: row.transferencias,
           estoque_total: row.estoque_total,
           cmv: row.cmv,
+          media3: mean(row.m1, row.m2, row.m3),
         };
 
         dadosArray.push(dadosTratados);

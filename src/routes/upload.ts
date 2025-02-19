@@ -3,6 +3,7 @@ import UpLoadController from "../controller/uploadController";
 import storage from "../lib/multerConfig";
 import multer from "multer";
 import productUpLoadController from "../controller/productUploadController";
+import ProductController from "../controller/productController";
 
 const importRouters = express.Router();
 const upload: multer.Multer = multer({ storage: storage });
@@ -17,5 +18,7 @@ importRouters.post(
   upload.single("file"),
   productUpLoadController.uploadProducts
 );
+
+importRouters.post("/limpaProdutos", ProductController.limpaBanco);
 
 export default importRouters;

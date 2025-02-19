@@ -38,6 +38,12 @@ class productUpLoadController {
           grp_Marca: row.grp_Marca,
           d_Grp_Marca: row.d_Grp_Marca,
           refrig: row.refrig,
+          fornecedor: row.fornecedor,
+          tributacao: row.tributacao,
+          status: row.status,
+          curva: row.curva,
+          bo: row.bo,
+          comprador: row.comprador,
         };
 
         dadosArray.push(dadosTratados);

@@ -35,7 +35,7 @@ model Map {
   status String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  //codigo_produto Product @relation(fields: [produto], references: [codigo])
+  codigo_produto Product @relation(fields: [produto], references: [codigo])
 }
 
 model Product {
@@ -44,6 +44,13 @@ model Product {
   grp_Marca String
   d_Grp_Marca String
   refrig String
-  //products Map[]
+  fornecedor String @default("-")
+  tributacao String @default("-")
+  status String @default("-")
+  curva String @default("-")
+  bo String @default("-")
+  comprador String @default("-")
+
+  products Map[]
 
 }
