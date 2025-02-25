@@ -4,7 +4,7 @@ import multer from "multer";
 import storage from "../lib/multerConfig";
 import csv from "csv";
 import { client } from "../database/client";
-import { mean } from "mathjs";
+import { max, mean, min, sum } from "mathjs";
 
 const upload: multer.Multer = multer({ storage: storage });
 
@@ -47,14 +47,21 @@ class SaldosUpLoadController {
           m3: Number(row.m3),
           m2: Number(row.m2),
           m1: Number(row.m1),
-          forecast: row.forecast,
-          estoque_in: row.estoque_in,
-          estoque_livre: row.estoque_livre,
-          compras: row.compras,
-          transferencias: row.transferencias,
-          estoque_total: row.estoque_total,
-          cmv: row.cmv,
-          media3: mean(row.m1, row.m2, row.m3),
+          forecast: Number(row.forecast),
+          estoque_in: Number(row.estoque_in),
+          estoque_livre: Number(row.estoque_livre),
+          compras: Number(row.compras),
+          transferencias: Number(row.transferencias),
+          estoque_total: Number(row.estoque_total),
+          cmv: Number(row.cmv),
+          mediaSimples: Number(mean(row.m1, row.m2, row.m3)),
+          ultimoMes: Number(row.m1),
+          novaMedia: Number(mean(row.forecast, row.m1, row.m2)),
+          menorVenda: Number(min(row.m1, row.m2, row.m3, row.m4)),
+          maiorVenda: Number(max(row.m1, row.m2, row.m3, row.m4)),
+          mediaPonderada: Number(
+            sum(row.m1 * 0.4, row.m2 * 0.3, row.m3 * 0.1, row.m4 * 0.1)
+          ),
         };
 
         dadosArray.push(dadosTratados);

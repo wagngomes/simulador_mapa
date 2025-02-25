@@ -52,5 +52,27 @@ model Product {
   comprador String @default("-")
 
   products Map[]
+}   
 
+model Saldos {
+  codigo String @id
+  filial String
+  rota String
+  m4 Float
+  m3 Float
+  m2 Float
+  m1 Float
+  forecast Float
+  estoque_in Float
+  estoque_livre Float
+  compras Float
+  transferencias Float
+  estoque_total Float
+  cmv Float
+  mediaSimples Float
+  ultimoMes Float
+  novaMedia Float
+  menorVenda Float
+  maiorVenda Float
+  mediaPonderada Float
 }
