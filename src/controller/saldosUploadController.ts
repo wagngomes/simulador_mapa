@@ -4,7 +4,7 @@ import multer from "multer";
 import storage from "../lib/multerConfig";
 import csv from "csv";
 import { client } from "../database/client";
-import { max, mean, min, sum } from "mathjs";
+import { max, mean, min, sum} from "mathjs";
 
 const upload: multer.Multer = multer({ storage: storage });
 
@@ -36,12 +36,6 @@ class SaldosUpLoadController {
         const dadosTratados = {
           codigo: row.codigo,
           filial: row.filial,
-          fornecedor: row.fornecedor,
-          tributacao: row.tributacao,
-          status: row.status,
-          curva: row.curva,
-          bo: row.bo,
-          comprador: row.comprador,
           rota: row.rota,
           m4: Number(row.m4),
           m3: Number(row.m3),
@@ -59,9 +53,7 @@ class SaldosUpLoadController {
           novaMedia: Number(mean(row.forecast, row.m1, row.m2)),
           menorVenda: Number(min(row.m1, row.m2, row.m3, row.m4)),
           maiorVenda: Number(max(row.m1, row.m2, row.m3, row.m4)),
-          mediaPonderada: Number(
-            sum(row.m1 * 0.4, row.m2 * 0.3, row.m3 * 0.1, row.m4 * 0.1)
-          ),
+          mediaPonderada: Number(sum((row.m1*0.4), (row.m2*0.3), (row.m3*0.2), (row.m4*0.1))),
         };
 
         dadosArray.push(dadosTratados);
