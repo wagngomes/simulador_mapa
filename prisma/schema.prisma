@@ -52,11 +52,13 @@ model Product {
   comprador String @default("-")
 
   products Map[]
+  inventories Inventory[]
 }   
 
-model Saldos {
-  codigo String @id
+model Inventory { 
+  codigo String
   filial String
+  id String @id
   rota String
   m4 Float
   m3 Float
@@ -75,4 +77,5 @@ model Saldos {
   menorVenda Float
   maiorVenda Float
   mediaPonderada Float
+  codigo_produto_saldos Product @relation(fields: [codigo], references: [codigo])
 }

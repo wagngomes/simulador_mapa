@@ -13,7 +13,7 @@ interface MulterRequest extends Request {
 }
 
 class SaldosUpLoadController {
-  static async uploadProducts(
+  static async uploadInventory(
     req: MulterRequest,
     res: Response
   ): Promise<void> {
@@ -36,31 +36,32 @@ class SaldosUpLoadController {
         const dadosTratados = {
           codigo: row.codigo,
           filial: row.filial,
+          id: row.codigo + row.filial,
           rota: row.rota,
-          m4: Number(row.m4),
-          m3: Number(row.m3),
-          m2: Number(row.m2),
-          m1: Number(row.m1),
-          forecast: Number(row.forecast),
+          m4: Number(row.m4 !== undefined ? row.m4 : 0),
+          m3: Number(row.m3 !== undefined ? row.m3 : 0),
+          m2: Number(row.m2 !== undefined ? row.m2 : 0),
+          m1: Number(row.m1 !== undefined ? row.m1 : 0),
+          forecast: Number(row.forecast !== undefined ? row.forecast : 0),
           estoque_in: Number(row.estoque_in),
           estoque_livre: Number(row.estoque_livre),
           compras: Number(row.compras),
           transferencias: Number(row.transferencias),
           estoque_total: Number(row.estoque_total),
           cmv: Number(row.cmv),
-          mediaSimples: Number(mean(row.m1, row.m2, row.m3)),
+          mediaSimples: Number(((row.m1+row.m2+row.m3)/3)),
           ultimoMes: Number(row.m1),
-          novaMedia: Number(mean(row.forecast, row.m1, row.m2)),
-          menorVenda: Number(min(row.m1, row.m2, row.m3, row.m4)),
-          maiorVenda: Number(max(row.m1, row.m2, row.m3, row.m4)),
-          mediaPonderada: Number(sum((row.m1*0.4), (row.m2*0.3), (row.m3*0.2), (row.m4*0.1))),
+          novaMedia: Number(((row.forecast+row.m1+row.m2)/3)),
+          menorVenda: Number(1),
+          maiorVenda: Number(1),
+          mediaPonderada: Number(((row.m1*0.4)+ (row.m2*0.3)+ (row.m3*0.2)+ (row.m4*0.1))),
         };
 
         dadosArray.push(dadosTratados);
       }
 
       if (dadosArray.length > 0) {
-        //await client.product.createMany({ data: dadosArray });
+        await client.inventory.createMany({ data: dadosArray });
       }
 
       res.status(200).send("Upload e processamento concluídos com sucesso.");
