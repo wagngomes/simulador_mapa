@@ -4,7 +4,7 @@ import multer from "multer";
 import storage from "../lib/multerConfig";
 import csv from "csv";
 import { client } from "../database/client";
-import { max, mean, min, sum} from "mathjs";
+import { max, mean, min, sum } from "mathjs";
 
 const upload: multer.Multer = multer({ storage: storage });
 
@@ -43,18 +43,26 @@ class SaldosUpLoadController {
           m2: Number(row.m2 !== undefined ? row.m2 : 0),
           m1: Number(row.m1 !== undefined ? row.m1 : 0),
           forecast: Number(row.forecast !== undefined ? row.forecast : 0),
-          estoque_in: Number(row.estoque_in),
-          estoque_livre: Number(row.estoque_livre),
-          compras: Number(row.compras),
-          transferencias: Number(row.transferencias),
-          estoque_total: Number(row.estoque_total),
-          cmv: Number(row.cmv),
-          mediaSimples: Number(((row.m1+row.m2+row.m3)/3)),
+          estoque_in: Number(row.estoque_in !== undefined ? row.estoque_in : 0),
+          estoque_livre: Number(
+            row.estoque_livre !== undefined ? row.estoque_livre : 0
+          ),
+          compras: Number(row.compras !== undefined ? row.compras : 0),
+          transferencias: Number(
+            row.transferencias !== undefined ? row.transferencias : 0
+          ),
+          estoque_total: Number(
+            row.estoque_total !== undefined ? row.estoque_total : 0
+          ),
+          cmv: Number(row.cmv !== undefined ? row.cmv : 0),
+          mediaSimples: Number((row.m1 + row.m2 + row.m3) / 3),
           ultimoMes: Number(row.m1),
-          novaMedia: Number(((row.forecast+row.m1+row.m2)/3)),
-          menorVenda: Number(1),
-          maiorVenda: Number(1),
-          mediaPonderada: Number(((row.m1*0.4)+ (row.m2*0.3)+ (row.m3*0.2)+ (row.m4*0.1))),
+          novaMedia: Number((row.forecast + row.m1 + row.m2) / 3),
+          menorVenda: Number(min([row.m1, row.m2, row.m3, row.m4])),
+          maiorVenda: Number(max([row.m1, row.m2, row.m3, row.m4])),
+          mediaPonderada: Number(
+            row.m1 * 0.4 + row.m2 * 0.3 + row.m3 * 0.2 + row.m4 * 0.1
+          ),
         };
 
         dadosArray.push(dadosTratados);
