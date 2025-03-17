@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import UpLoadController from "../controller/uploadController";
+import MapUpLoadController from "../controller/mapUploadController";
 import storage from "../lib/multerConfig";
 import multer from "multer";
 import productUpLoadController from "../controller/productUploadController";
@@ -12,7 +12,7 @@ const upload: multer.Multer = multer({ storage: storage });
 importRouters.post(
   "/import",
   upload.single("file"),
-  UpLoadController.uploadMap
+  MapUpLoadController.uploadMap
 );
 importRouters.post(
   "/importProducts",
@@ -20,7 +20,11 @@ importRouters.post(
   productUpLoadController.uploadProducts
 );
 
-importRouters.post('/importInventory', upload.single('file'),SaldosUpLoadController.uploadInventory)
+importRouters.post(
+  "/importInventory",
+  upload.single("file"),
+  SaldosUpLoadController.uploadInventory
+);
 
 importRouters.post("/limpaProdutos", ProductController.limpaBanco);
 
