@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,71 +8,80 @@ datasource db {
 }
 
 model Map {
-  id String @id @default(uuid())
-  produto String
-  descricao String
-  b_o String
-  mat_med String
-  fornecedor String
-  comprador String
+  id                   String   @id @default(uuid())
+  produto              String
+  descricao            String
+  b_o                  String
+  mat_med              String
+  fornecedor           String
+  comprador            String
   primeira_filial_rota String
-  filial_dest String
-  sigla_dest String
-  empresa_dest String
-  grupo_tributacao String
-  flag_tributacao String
-  rota String
-  codigo String
-  gui_semana_saida String
-  gui_semana_chegada String
-  modo_compra String
-  dia_sugerido_pedido String
-  qtd_comprada Int
-  preco_total Decimal
-  status String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  codigo_produto Product @relation(fields: [produto], references: [codigo])
+  filial_dest          String
+  sigla_dest           String
+  empresa_dest         String
+  grupo_tributacao     String
+  flag_tributacao      String
+  rota                 String
+  codigo               String
+  gui_semana_saida     String
+  gui_semana_chegada   String
+  modo_compra          String
+  dia_sugerido_pedido  String
+  qtd_comprada         Int
+  preco_total          Decimal
+  status               String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  codigo_produto       Product  @relation(fields: [produto], references: [codigo])
 }
 
 model Product {
-  codigo String @id 
-  descricao String
-  grp_Marca String
+  codigo      String      @id
+  descricao   String
+  grp_Marca   String
   d_Grp_Marca String
-  refrig String
-  fornecedor String @default("-")
-  tributacao String @default("-")
-  status String @default("-")
-  curva String @default("-")
-  bo String @default("-")
-  comprador String @default("-")
-
-  products Map[]
+  refrig      String
+  fornecedor  String      @default("-")
+  tributacao  String      @default("-")
+  status      String      @default("-")
+  curva       String      @default("-")
+  bo          String      @default("-")
+  comprador   String      @default("-")
+  historics   Historic[]
   inventories Inventory[]
-}   
+  products    Map[]
+}
 
-model Inventory { 
-  codigo String
-  filial String
-  id String @id
-  rota String
-  m4 Float
-  m3 Float
-  m2 Float
-  m1 Float
-  forecast Float
-  estoque_in Float
-  estoque_livre Float
-  compras Float
-  transferencias Float
-  estoque_total Float
-  cmv Float
-  mediaSimples Float
-  ultimoMes Float
-  novaMedia Float
-  menorVenda Float
-  maiorVenda Float
-  mediaPonderada Float
+model Inventory {
+  codigo                String
+  filial                String
+  id                    String  @id
+  rota                  String
+  m4                    Float
+  m3                    Float
+  m2                    Float
+  m1                    Float
+  forecast              Float
+  estoque_in            Float
+  estoque_livre         Float
+  compras               Float
+  transferencias        Float
+  estoque_total         Float
+  cmv                   Float
+  mediaSimples          Float
+  ultimoMes             Float
+  novaMedia             Float
+  menorVenda            Float
+  maiorVenda            Float
+  mediaPonderada        Float
   codigo_produto_saldos Product @relation(fields: [codigo], references: [codigo])
+}
+
+model Historic {
+  id           String  @id @default(uuid())
+  product      String
+  data         String
+  quantity     Float
+  cd           String
+  product_code Product @relation(fields: [product], references: [codigo])
 }
