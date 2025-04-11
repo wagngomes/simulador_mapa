@@ -3,11 +3,11 @@ import csv from 'csv'
 import { InventoryParse } from '../utils/inventoryCsvParse';
 import { InventoryInterface } from '../utils/inventoryCsvParse'
 
-export class UploadUseCase {
+export class InventoryUploadUseCase {
 
     constructor(private upLoadRepository: any) { }
 
-    async executeUpload(path: string) {
+    async execute(path: string) {
 
         const arquivoImportado = path;
         const parser = fs

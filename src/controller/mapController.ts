@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { client } from "../database/client";
+import  client  from "../database/client";
 
 class MapController {
   static async retornaMapaCompleto(req: Request, res: Response) {

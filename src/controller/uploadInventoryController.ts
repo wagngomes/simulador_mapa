@@ -2,7 +2,7 @@ import express, { Request, Response } from "express"
 import multer from "multer"
 import storage from "../lib/multerConfig"
 import { PrismaRepository } from "../repositories/prisma-repository"
-import { UploadUseCase } from "../services/uploadInventoryService"
+import { InventoryUploadUseCase } from "../services/uploadInventoryService"
 
 const upload: multer.Multer = multer({ storage: storage })
 
@@ -20,9 +20,9 @@ class SaldosUpLoadController {
         return
       }
       const repository = new PrismaRepository()
-      const upLoadUseCase = new UploadUseCase(repository)
+      const inventoryUploadUseCase = new InventoryUploadUseCase(repository)
 
-      await upLoadUseCase.executeUpload(req.file.path)
+      await inventoryUploadUseCase.execute(req.file.path)
       res.status(200).send("Upload e processamento concluídos com sucesso.")
       return
       

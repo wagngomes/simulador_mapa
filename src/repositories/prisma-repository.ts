@@ -9,13 +9,19 @@ export class PrismaRepository {
     async createImportInventory(dataArray: InventoryInterface[]){
 
         await client.inventory.createMany({ data: dataArray });
-
         return 
 
     }
     async createImportHistoric(dataArray: HistoricSell){
         await client.historic.createMany({data:dataArray})
         return 
+    }
+
+    async getHistoricData() {
+
+        const data = await client.historic.findMany()
+        
+        return data
     }
         
     

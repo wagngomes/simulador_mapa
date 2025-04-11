@@ -1,4 +1,4 @@
-import { client } from "../database/client";
+import  client from "../database/client";
 import { Request, Response } from "express";
 
 class InventoryController {

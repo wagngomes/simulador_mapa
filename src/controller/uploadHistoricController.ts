@@ -22,7 +22,7 @@ class HistoricUpLoadController {
       const repository = new PrismaRepository()
       const historicUploadUseCase = new HistoricUploadUseCase(repository)
 
-      await historicUploadUseCase.executeUpload(req.file.path)
+      await historicUploadUseCase.execute(req.file.path)
       res.status(200).send("Upload e processamento concluídos com sucesso.")
       return
       

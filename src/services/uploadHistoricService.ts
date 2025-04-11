@@ -7,7 +7,7 @@ export class HistoricUploadUseCase {
 
     constructor(private upLoadRepository: any) { }
 
-    async executeUpload(path: string) {
+    async execute(path: string) {
 
         const arquivoImportado = path;
         const parser = fs

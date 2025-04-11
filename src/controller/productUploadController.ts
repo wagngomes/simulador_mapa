@@ -3,7 +3,7 @@ import fs from "node:fs";
 import multer from "multer";
 import storage from "../lib/multerConfig";
 import csv from "csv";
-import { client } from "../database/client";
+import client from "../database/client";
 
 const upload: multer.Multer = multer({ storage: storage });
 
