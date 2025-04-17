@@ -83,5 +83,5 @@ model Historic {
   data         String
   quantity     Float
   cd           String
-  product_code Product @relation(fields: [product], references: [codigo])
+  produto_ref  Product @relation(fields: [product], references: [codigo])
 }

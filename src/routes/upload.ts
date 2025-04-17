@@ -6,6 +6,8 @@ import productUpLoadController from "../controller/productUploadController";
 import ProductController from "../controller/productController";
 import SaldosUpLoadController from "../controller/uploadInventoryController";
 import HistoricUpLoadController from "../controller/uploadHistoricController";
+import { GetForecastApi } from "../controller/getForecastApiController";
+import MapController from "../controller/mapController";
 
 const importRouters = express.Router();
 const upload: multer.Multer = multer({ storage: storage });
@@ -34,5 +36,13 @@ importRouters.post(
 );
 
 importRouters.post("/limpaProdutos", ProductController.limpaBanco);
+
+importRouters.post("/limpaHistoric", ProductController.limpaBancoHistoric);
+
+importRouters.get('/getforecast', GetForecastApi.getForecasting)
+
+importRouters.post("/limpaMap", MapController.limpaMapa);
+
+
 
 export default importRouters;

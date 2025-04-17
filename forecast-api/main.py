@@ -33,7 +33,7 @@ def forecast(request: ForecastRequest):
             model = Prophet()
             model.fit(df_group)
 
-            future = model.make_future_dataframe(periods=12, freq='MS')  # 12 meses
+            future = model.make_future_dataframe(periods=6, freq='MS')  # 12 meses
             forecast = model.predict(future)
 
             forecast_result = forecast[['ds', 'yhat']].tail(6)
@@ -44,7 +44,7 @@ def forecast(request: ForecastRequest):
                     "cd": cd_value,
                     "codigo_produto": produto_value,
                     "data": row['ds'].strftime('%Y-%m-%d'),
-                    "previsao": round(row['yhat'], 2)
+                    "previsao": max(0, round(row['yhat'], 0))
                 })
 
         return {"forecasts": forecasts}

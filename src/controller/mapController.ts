@@ -52,6 +52,12 @@ class MapController {
       res.status(500).json({ error: "Erro ao buscar o mapa sumarizado." });
     }
   }
+
+  static async limpaMapa(req: Request, res: Response) {
+
+    await client.map.deleteMany()
+    res.status(200).json("dados deletados com sucesso");
+  }
 }
 
 export default MapController;
