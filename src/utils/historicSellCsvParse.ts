@@ -13,7 +13,6 @@ export function historicSellParse (row: HistoricSell){
         quantity: Number(row.quantity||0),
         cd: row.cd
     }
-
     return historicLine
 }
 

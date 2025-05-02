@@ -1,34 +1,35 @@
+import { request } from 'undici';
+
 export class GetPythonForecasting {
-    constructor(private HistoricRepository: any){
-    }
-    
-    async execute(){
+    constructor(private HistoricRepository: any) {}
 
-        const controller = new AbortController() /***************** */
-        const timeout = setTimeout(() => controller.abort(), 1200000) // 90s /***************** */
-
-        const historic = await this.HistoricRepository.getHistoricData()
+    async execute() {
+        const historic = await this.HistoricRepository.getHistoricData();
 
         const formattedData = historic.map((item: any) => ({
             ds: item.data,
             y: Number(item.quantity),
             cd: item.cd,
             codigo_produto: item.product
-          }))
-        const response = await fetch ('http://localhost:8000/forecast',{
+        }));
+
+        const { body, statusCode } = await request('http://localhost:8000/forecast', {
             method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            signal: controller.signal, /***************** */
-            body: JSON.stringify({items:formattedData}),
-            
-        })
-        if (!response.ok) {
-            throw new Error(`Erro ao chamar o forecasting: ${response.status}`)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: formattedData }),
+            headersTimeout: 180*60*1000, 
+            bodyTimeout: 60*60*1000     // <-- tempo total para o corpo da resposta (60 min)
+        });
+
+        if (statusCode !== 200) {
+            throw new Error(`Erro ao chamar o forecasting: ${statusCode}`);
         }
-        const data = await response.json()
-        clearTimeout(timeout)
-        return data       
+
+        const chunks: Buffer[] = [];
+        for await (const chunk of body) {
+            chunks.push(chunk);
+        }
+        const responseString = Buffer.concat(chunks).toString('utf8');
+        return JSON.parse(responseString);
     }
 }

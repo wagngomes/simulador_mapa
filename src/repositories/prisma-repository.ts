@@ -1,13 +1,10 @@
 import client from '../database/client'
-import { HistoricSell } from "../utils/historicSellCsvParse";
-import { InventoryInterface } from "../utils/inventoryCsvParse";
-
-
+import { HistoricSell } from "../utils/historicSellCsvParse"
+import { InventoryInterface } from "../utils/inventoryCsvParse"
 
 export class PrismaRepository {
 
     async createImportInventory(dataArray: InventoryInterface[]){
-
         await client.inventory.createMany({ data: dataArray });
         return 
 
@@ -18,9 +15,7 @@ export class PrismaRepository {
     }
 
     async getHistoricData() {
-
-        const data = await client.historic.findMany()
-        
+        const data = await client.historic.findMany()       
         return data
     }
         
