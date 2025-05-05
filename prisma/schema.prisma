@@ -50,6 +50,7 @@ model Product {
   historics   Historic[]
   inventories Inventory[]
   products    Map[]
+  forecasts   Forecast[]
 }
 
 model Inventory {
@@ -84,4 +85,13 @@ model Historic {
   quantity     Float
   cd           String
   produto_ref  Product @relation(fields: [product], references: [codigo])
+}
+
+model Forecast {
+  id                 String  @id @default(uuid())
+  codigo_produto     String
+  data               String
+  previsao           Float
+  cd                 String
+  codigo_ref         Product @relation(fields: [codigo_produto], references: [codigo])
 }

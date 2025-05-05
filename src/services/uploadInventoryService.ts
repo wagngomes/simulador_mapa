@@ -2,10 +2,11 @@ import fs from 'node:fs'
 import csv from 'csv'
 import { InventoryParse } from '../utils/inventoryCsvParse';
 import { InventoryInterface } from '../utils/inventoryCsvParse'
+import { PrismaRepository } from '../repositories/prisma-repository';
 
 export class InventoryUploadUseCase {
 
-    constructor(private upLoadRepository: any) { }
+    constructor(private prismaRepository: PrismaRepository) { }
 
     async execute(path: string) {
 
@@ -20,7 +21,7 @@ export class InventoryUploadUseCase {
             const linhaDeSaldo = InventoryParse(row)
             dadosArray.push(linhaDeSaldo);
         }
-        await this.upLoadRepository.createImportInventory(dadosArray)
+        await this.prismaRepository.createImportInventory(dadosArray)
         fs.unlinkSync(arquivoImportado);
         return
     }

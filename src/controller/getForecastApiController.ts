@@ -1,5 +1,5 @@
 import { PrismaRepository } from "../repositories/prisma-repository";
-import { GetPythonForecasting } from "../services/getPythonForecasting";
+import { GetPythonForecasting } from "../services/getPythonForecastingService";
 import { Request, Response } from "express";
 
 export class GetForecastApi{

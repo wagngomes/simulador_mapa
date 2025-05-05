@@ -2,10 +2,11 @@ import fs from 'node:fs'
 import csv from 'csv'
 import { historicSellParse } from '../utils/historicSellCsvParse'
 import { HistoricSell } from '../utils/historicSellCsvParse';
+import { PrismaRepository } from '../repositories/prisma-repository';
 
 export class HistoricUploadUseCase {
 
-    constructor(private upLoadRepository: any) { }
+    constructor(private prismaRepository: PrismaRepository) { }
 
     async execute(path: string) {
 
@@ -20,7 +21,7 @@ export class HistoricUploadUseCase {
             const linhaDeSaldo = historicSellParse(row)
             dadosArray.push(linhaDeSaldo);
         }
-        await this.upLoadRepository.createImportHistoric(dadosArray)
+        await this.prismaRepository.createImportHistoric(dadosArray)
         fs.unlinkSync(arquivoImportado);
         return
     }
