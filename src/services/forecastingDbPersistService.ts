@@ -21,9 +21,6 @@ export class forecastingDbPersistUseCase {
 
         const forecasts = forecastResponse.forecasts
 
-        console.log("Forecasts recebidos:", forecasts.length);
-        console.log("Exemplo:", forecasts[0]);
-     
         await this.prismaRepository.createForecast(forecasts)
 
         return
