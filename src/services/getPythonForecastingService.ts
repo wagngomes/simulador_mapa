@@ -18,8 +18,8 @@ export class GetPythonForecasting {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ items: formattedData }),
-            headersTimeout: 180*60*1000, 
-            bodyTimeout: 180*60*1000     // <-- tempo total para o corpo da resposta (60 min)
+            headersTimeout: 720*60*1000, 
+            bodyTimeout: 720*60*1000     //12 horas <-- tempo total para o corpo da resposta (60 min)
         });
 
         if (statusCode !== 200) {

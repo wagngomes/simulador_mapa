@@ -27,6 +27,12 @@ export class PrismaRepository {
         return
      
     }
+
+    async getForecast(){
+
+        const forecast = await client.forecast.findMany()
+        return forecast
+    }
         
     
 }

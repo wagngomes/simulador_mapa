@@ -40,32 +40,41 @@ def forecast(request: ForecastRequest):
             if len(df_group) < 2:
                 print(f"Ignorando grupo ({cd_value}, {produto_value}) - dados insuficientes.")
                 continue
-            
-            df_group = df_group[(stats.zscore(df_group['y']) < 1.0)]
+
+            # Tentativa segura de aplicar zscore para remover outliers
+            try:
+                zscores = stats.zscore(df_group['y'])
+                df_group = df_group[(zscores < 1.0)]
+            except Exception as e:
+                print(f"Erro ao calcular zscore para ({cd_value}, {produto_value}): {e}")
+                continue
+
+            # Remove possíveis NaNs gerados pelo zscore ou resample
+            df_group = df_group.dropna(subset=['ds', 'y'])
+
+            # Verifica novamente a quantidade de dados
+            if len(df_group) < 2:
+                print(f"Ignorando grupo ({cd_value}, {produto_value}) - dados insuficientes após limpeza.")
+                continue
+
+            # Ajusta o modelo Prophet
             model = Prophet()
             model.fit(df_group[['ds', 'y']])
 
+            # Gera datas futuras para previsão
             last_date = df_group['ds'].max().replace(day=1)
             future = model.make_future_dataframe(periods=6, freq='MS')
             forecast = model.predict(future)
 
+            # Filtra previsões futuras
             forecast_result = forecast[forecast['ds'] > last_date][['ds', 'yhat']]
 
-            # Calcula média dos últimos 3 períodos
-            ultimos_3 = df_group.tail(3)
-            media_ultimos_3 = ultimos_3['y'].mean() if not ultimos_3.empty else 0
-
             for _, row in forecast_result.iterrows():
-                previsao = row['yhat']
-                # Se previsão for zero ou muito próxima de zero (tolerância de 0.01)
-                if abs(previsao) <= 0:
-                    previsao = media_ultimos_3
-
                 forecasts.append({
                     "cd": cd_value,
                     "codigo_produto": produto_value,
                     "data": row['ds'].strftime('%Y-%m-%d'),
-                    "previsao": round(previsao, 0)
+                    "previsao": round(row['yhat'], 0)
                 })
 
         return {"forecasts": forecasts}
