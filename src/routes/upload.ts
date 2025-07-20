@@ -47,7 +47,7 @@ importRouters.post("/limpaMap", MapController.limpaMapa);
 
 importRouters.post('/salvaPrevisoes', ForecastingDbPersistController.ForecastingDbPersist)
 
-importRouters.get('/export', ExportForecastController.ExportForecast)
+importRouters.get('/export', ExportForecastController.exportForecast)
 
 
 export default importRouters;

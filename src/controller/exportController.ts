@@ -1,11 +1,10 @@
-import  client from "../database/client";
 import { Request, Response } from "express";
 import { PrismaRepository } from "../repositories/prisma-repository";
 import { ExportForecastUseCase } from "../services/exportForecastService";
 
 class ExportForecastController {
 
-  static async ExportForecast(req: Request, res: Response) {
+  static async exportForecast(req: Request, res: Response) {
 
     const prismaRepository = new PrismaRepository()
     const exportForecastUseCase = new ExportForecastUseCase(prismaRepository)
@@ -18,8 +17,6 @@ class ExportForecastController {
     );
     res.setHeader("Content-Disposition", 'attachment; filename="forecast.xlsx"');
     res.send(buffer);
-
-    //res.status(200).json("Arquivo criado para exportação");
   }
 }
 

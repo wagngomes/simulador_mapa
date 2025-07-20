@@ -7,6 +7,7 @@ export class ExportForecastUseCase {
   constructor(private prismaRepository: PrismaRepository) {}
 
   async execute() {
+    
     const exportPath = path.resolve(__dirname, "../lib/uploads/forecast.xlsx");
 
     const data = await this.prismaRepository.getForecast();

@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import csv from 'csv'
-import { InventoryParse } from '../utils/inventoryCsvParse';
-import { InventoryInterface } from '../utils/inventoryCsvParse'
+import { InventoryParse } from '../utils/inventoryCsvParser';
+import { InventoryInterface } from '../utils/inventoryCsvParser'
 import { PrismaRepository } from '../repositories/prisma-repository';
 
 export class InventoryUploadUseCase {

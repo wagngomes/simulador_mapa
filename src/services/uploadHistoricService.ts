@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import csv from 'csv'
-import { historicSellParse } from '../utils/historicSellCsvParse'
-import { HistoricSell } from '../utils/historicSellCsvParse';
+import { historicSellParse } from '../utils/historicSellCsvParser'
+import { HistoricSell } from '../utils/historicSellCsvParser';
 import { PrismaRepository } from '../repositories/prisma-repository';
 
 export class HistoricUploadUseCase {
