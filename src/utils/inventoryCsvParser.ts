@@ -1,5 +1,3 @@
-import { max, min } from "mathjs"
-
 export interface InventoryInterface {
     codigo: string
     filial: string

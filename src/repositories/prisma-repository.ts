@@ -2,7 +2,6 @@ import client from '../database/client'
 import { HistoricSell } from "../utils/historicSellCsvParser"
 import { InventoryInterface } from "../utils/inventoryCsvParser"
 import { ForecastingDBPersistUseCaseRequest } from '../services/forecastingDbPersistService'
-import { response } from 'express';
 
 export class PrismaRepository {
 

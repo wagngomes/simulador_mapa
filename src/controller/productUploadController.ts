@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import fs from "node:fs";
 import multer from "multer";
 import storage from "../lib/multerConfig";
-import csv from "csv";
+import {parse} from "csv";
 import client from "../database/client";
 
 const upload: multer.Multer = multer({ storage: storage });
@@ -27,7 +27,7 @@ class productUpLoadController {
 
       const parser = fs
         .createReadStream(arquivoImportado)
-        .pipe(csv.parse({ columns: true, delimiter: ";" }));
+        .pipe(parse({ columns: true, delimiter: ";" }));
 
       const dadosArray = [];
 

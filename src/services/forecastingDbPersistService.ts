@@ -17,7 +17,7 @@ export class forecastingDbPersistUseCase {
 
     async execute(){
 
-        const forecastResponse = await this.getPythonforecasting.execute()
+        const forecastResponse: any = await this.getPythonforecasting.execute()
 
         const forecasts = forecastResponse.forecasts
 

@@ -2,7 +2,8 @@ import multer from "multer"
 import path from "path"
 import fs from "fs"
 
-const uploadDir: string = path.resolve(__dirname, "./uploads")
+//const uploadDir: string = path.resolve(__dirname, "./uploads")
+const uploadDir = path.resolve(process.cwd(), 'src/lib/uploads');
 
 
 if (!fs.existsSync(uploadDir)) {

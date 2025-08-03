@@ -1,5 +1,4 @@
 import path from "node:path";
-import fs from "node:fs";
 import { PrismaRepository } from "../repositories/prisma-repository";
 import * as XLSX from "xlsx";
 
@@ -16,9 +15,6 @@ export class ExportForecastUseCase {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Forecast");
-
-    // Escreve o arquivo Excel no disco
-    //XLSX.writeFile(workbook, exportPath);
 
     const buffer = XLSX.write(workbook, {
       type: "buffer",

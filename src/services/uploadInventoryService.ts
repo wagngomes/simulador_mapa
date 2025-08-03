@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import csv from 'csv'
+import {parse} from 'csv'
 import { InventoryParse } from '../utils/inventoryCsvParser';
 import { InventoryInterface } from '../utils/inventoryCsvParser'
 import { PrismaRepository } from '../repositories/prisma-repository';
@@ -13,7 +13,7 @@ export class InventoryUploadUseCase {
         const arquivoImportado = path;
         const parser = fs
             .createReadStream(arquivoImportado)
-            .pipe(csv.parse({ columns: true, delimiter: ";" }))
+            .pipe(parse({ columns: true, delimiter: ";" }))
         const dadosArray: InventoryInterface[] = []
 
         for await (const row of parser) {

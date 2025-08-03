@@ -83,3 +83,8 @@ def forecast(request: ForecastRequest):
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
+
+#ativar o ambiente virtual: .\venv\Scripts\Activate.ps1
+#rodar o projeto: uvicorn forecast-api.main:app --reload
+#tudo isso na raiz do projeto 

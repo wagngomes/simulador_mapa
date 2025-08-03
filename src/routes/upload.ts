@@ -14,11 +14,11 @@ import ExportForecastController from "../controller/exportController";
 const importRouters = express.Router();
 const upload: multer.Multer = multer({ storage: storage });
 
-importRouters.post(
+/*importRouters.post(
   "/import",
   upload.single("file"),
   MapUpLoadController.uploadMap
-);
+);*/
 importRouters.post(
   "/importProducts",
   upload.single("file"),
