@@ -79,19 +79,24 @@ model Inventory {
 }
 
 model Historic {
-  id           String  @id @default(uuid())
-  product      String
-  data         String
-  quantity     Float
-  cd           String
-  produto_ref  Product @relation(fields: [product], references: [codigo])
+  id                   String  @id @default(uuid())
+  import_id            String  @default(uuid())
+  scenario_name        String
+  scenario_tag         String
+  scenario_description String
+  source_file          String
+  product              String
+  data                 String
+  quantity             Float
+  cd                   String
+  produto_ref          Product @relation(fields: [product], references: [codigo])
 }
 
 model Forecast {
-  id                 String  @id @default(uuid())
-  codigo_produto     String
-  data               String
-  previsao           Float
-  cd                 String
-  codigo_ref         Product @relation(fields: [codigo_produto], references: [codigo])
+  id             String  @id @default(uuid())
+  codigo_produto String
+  data           String
+  previsao       Float
+  cd             String
+  codigo_ref     Product @relation(fields: [codigo_produto], references: [codigo])
 }

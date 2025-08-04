@@ -8,7 +8,13 @@ export class HistoricUploadUseCase {
 
     constructor(private prismaRepository: PrismaRepository) { }
 
-    async execute(path: string) {
+    async execute(
+        path: string,
+        import_id: string,
+        scenario_name: string,
+        scenario_tag: string,
+        scenario_description: string,
+        source_file: string) {
 
         const arquivoImportado = path;
         const parser = fs
@@ -18,7 +24,7 @@ export class HistoricUploadUseCase {
 
         for await (const row of parser) {
 
-            const linhaDeSaldo = historicSellParse(row)
+            const linhaDeSaldo = historicSellParse(row, import_id, scenario_name, scenario_tag, scenario_description, source_file)
             dadosArray.push(linhaDeSaldo);
         }
         await this.prismaRepository.createImportHistoric(dadosArray)

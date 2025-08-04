@@ -3,6 +3,7 @@ import multer from "multer"
 import storage from "../lib/multerConfig"
 import { PrismaRepository } from "../repositories/prisma-repository"
 import { HistoricUploadUseCase } from "../services/uploadHistoricService"
+import { randomUUID } from "node:crypto"
 
 const upload: multer.Multer = multer({ storage: storage })
 
@@ -22,7 +23,11 @@ class HistoricUpLoadController {
       const repository = new PrismaRepository()
       const historicUploadUseCase = new HistoricUploadUseCase(repository)
 
-      await historicUploadUseCase.execute(req.file.path)
+      const { scenario_name, scenario_tag, scenario_description, source_file} = req.body
+
+      const import_id = randomUUID()
+
+      await historicUploadUseCase.execute(req.file.path, import_id , scenario_name, scenario_tag, scenario_description, source_file)
       res.status(200).send("Upload e processamento concluídos com sucesso.")
       return
       
