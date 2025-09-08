@@ -1,4 +1,5 @@
 export interface PublishedDataMessage {
+  cenario_id: string
   items: Array<{
     ds: string
     y: number

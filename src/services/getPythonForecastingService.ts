@@ -6,8 +6,11 @@ import { Historic } from '@prisma/client';
 export class GetPythonForecasting {
     constructor(private prismaRepository: PrismaRepository) { }
 
-    async execute() {
-        const historic = await this.prismaRepository.getHistoricData();
+    //Data (formato: YYYY-MM-DD)
+
+    async execute(id: string) {
+        const historic = await this.prismaRepository.getHistoricData(id);
+        const cenario_id = id
 
         const formattedData = historic.map((item: Historic) => ({
             ds: item.data,
@@ -16,7 +19,11 @@ export class GetPythonForecasting {
             codigo_produto: item.product
         }))
 
-        sendHistoricData({ items: formattedData })
+        sendHistoricData({cenario_id, items: formattedData })
+
+        await this.prismaRepository.refreshStatusToQueued(id)
+
+
 
     }
 }

@@ -8,6 +8,7 @@ export interface HistoricSell {
     data: string
     quantity: number
     cd: string
+    status: string
 }
 
 export function historicSellParse(
@@ -16,7 +17,10 @@ export function historicSellParse(
     scenario_name: string,
     scenario_tag: string,
     scenario_description: string,
-    source_file: string) {
+    source_file: string,
+    status: string
+) 
+    {
     let historicLine = {
         import_id: import_id,
         scenario_name: scenario_name,
@@ -26,7 +30,8 @@ export function historicSellParse(
         product: row.product,
         data: row.data,
         quantity: Number(row.quantity || 0),
-        cd: row.cd
+        cd: row.cd,
+        status: status
     }
     return historicLine
 }

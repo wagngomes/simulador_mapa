@@ -79,8 +79,8 @@ model Inventory {
 }
 
 model Historic {
-  id                   String  @id @default(uuid())
-  import_id            String  @default(uuid())
+  id                   String        @id @default(uuid())
+  import_id            String        @default(uuid())
   scenario_name        String
   scenario_tag         String
   scenario_description String
@@ -89,7 +89,9 @@ model Historic {
   data                 String
   quantity             Float
   cd                   String
-  produto_ref          Product @relation(fields: [product], references: [codigo])
+  createdAt            DateTime      @default(now())
+  status               StatusProcess
+  produto_ref          Product       @relation(fields: [product], references: [codigo])
 }
 
 model Forecast {
@@ -99,4 +101,12 @@ model Forecast {
   previsao       Float
   cd             String
   codigo_ref     Product @relation(fields: [codigo_produto], references: [codigo])
+}
+
+enum StatusProcess {
+  imported
+  queued
+  processing
+  completed
+  failed
 }

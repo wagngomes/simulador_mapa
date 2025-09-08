@@ -27,7 +27,9 @@ class HistoricUpLoadController {
 
       const import_id = randomUUID()
 
-      await historicUploadUseCase.execute(req.file.path, import_id , scenario_name, scenario_tag, scenario_description, source_file)
+      const status = 'imported'
+
+      await historicUploadUseCase.execute(req.file.path, import_id , scenario_name, scenario_tag, scenario_description, source_file, status )
       res.status(200).send("Upload e processamento concluídos com sucesso.")
       return
       

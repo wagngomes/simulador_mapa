@@ -6,3 +6,14 @@ services:
       - "15672:15672"
     #volumes:
     #  - rabbitmq_data:/var/lib/rabbitmq
+
+  forecast_api_pg:
+    image: bitnami/postgresql:latest
+    ports:
+      - '5483:5432'
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=forecast_api
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d

@@ -8,9 +8,11 @@ export class ForecastingDbPersistController {
     
         const dataRepository = new PrismaRepository()
         const sut = new forecastingDbPersistUseCase(dataRepository)
+
+        const {id} = req.body
     
         try{
-            await sut.execute()
+            await sut.execute(id)
             res.status(201).send("Dados salvos no banco")
         }catch(error){
             console.error("Erro ao processar o arquivo:", error)

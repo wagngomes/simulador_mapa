@@ -10,6 +10,7 @@ import { GetForecastApi } from "../controller/getForecastApiController";
 import MapController from "../controller/mapController";
 import { ForecastingDbPersistController } from "../controller/forecastingDbPersistController";
 import ExportForecastController from "../controller/exportController";
+import { fecthScenariosController } from "../controller/fetchScenariosController";
 
 const importRouters = express.Router();
 const upload: multer.Multer = multer({ storage: storage });
@@ -41,13 +42,15 @@ importRouters.post("/limpaProdutos", ProductController.limpaBanco);
 
 importRouters.post("/limpaHistoric", ProductController.limpaBancoHistoric);
 
-importRouters.get('/getforecast', GetForecastApi.getForecasting)
+importRouters.post('/getforecast', GetForecastApi.getForecasting)
 
 importRouters.post("/limpaMap", MapController.limpaMapa);
 
 importRouters.post('/salvaPrevisoes', ForecastingDbPersistController.ForecastingDbPersist)
 
 importRouters.get('/export', ExportForecastController.exportForecast)
+
+importRouters.get('/scenarios', fecthScenariosController.fetchScenarios)
 
 
 export default importRouters;

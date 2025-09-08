@@ -15,9 +15,9 @@ export class forecastingDbPersistUseCase {
     getPythonforecasting = new GetPythonForecasting(this.prismaRepository)
 
 
-    async execute(){
+    async execute(id: string){
 
-        const forecastResponse: any = await this.getPythonforecasting.execute()
+        const forecastResponse: any = await this.getPythonforecasting.execute(id)
 
         const forecasts = forecastResponse.forecasts
 
