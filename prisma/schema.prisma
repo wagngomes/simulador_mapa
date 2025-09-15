@@ -7,75 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Map {
-  id                   String   @id @default(uuid())
-  produto              String
-  descricao            String
-  b_o                  String
-  mat_med              String
-  fornecedor           String
-  comprador            String
-  primeira_filial_rota String
-  filial_dest          String
-  sigla_dest           String
-  empresa_dest         String
-  grupo_tributacao     String
-  flag_tributacao      String
-  rota                 String
-  codigo               String
-  gui_semana_saida     String
-  gui_semana_chegada   String
-  modo_compra          String
-  dia_sugerido_pedido  String
-  qtd_comprada         Int
-  preco_total          Decimal
-  status               String
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-  codigo_produto       Product  @relation(fields: [produto], references: [codigo])
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole
+  createdAt DateTime @default(now())
 }
 
 model Product {
-  codigo      String      @id
+  codigo      String     @id
   descricao   String
   grp_Marca   String
   d_Grp_Marca String
   refrig      String
-  fornecedor  String      @default("-")
-  tributacao  String      @default("-")
-  status      String      @default("-")
-  curva       String      @default("-")
-  bo          String      @default("-")
-  comprador   String      @default("-")
+  fornecedor  String     @default("-")
+  tributacao  String     @default("-")
+  status      String     @default("-")
+  curva       String     @default("-")
+  bo          String     @default("-")
+  comprador   String     @default("-")
   historics   Historic[]
-  inventories Inventory[]
-  products    Map[]
   forecasts   Forecast[]
-}
-
-model Inventory {
-  codigo                String
-  filial                String
-  id                    String  @id
-  rota                  String
-  m4                    Float
-  m3                    Float
-  m2                    Float
-  m1                    Float
-  forecast              Float
-  estoque_in            Float
-  estoque_livre         Float
-  compras               Float
-  transferencias        Float
-  estoque_total         Float
-  cmv                   Float
-  mediaSimples          Float
-  ultimoMes             Float
-  novaMedia             Float
-  menorVenda            Float
-  maiorVenda            Float
-  mediaPonderada        Float
-  codigo_produto_saldos Product @relation(fields: [codigo], references: [codigo])
 }
 
 model Historic {
@@ -109,4 +63,9 @@ enum StatusProcess {
   processing
   completed
   failed
+}
+
+enum UserRole {
+  admin
+  user
 }

@@ -1,4 +1,3 @@
-// ./consumers/simulationStatusConsumer.ts
 import { PrismaRepository } from "../../repositories/prisma-repository"
 import { UpdateSimulationStatusUseCase } from "../../services/updateSimulationStatus"
 import { simulationStatus } from "../channels/getSimulationStatus"

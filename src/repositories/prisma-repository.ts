@@ -1,18 +1,13 @@
 import client from '../database/client'
 import { HistoricSell } from "../utils/historicSellCsvParser"
-import { InventoryInterface } from "../utils/inventoryCsvParser"
 import { ForecastingDBPersistUseCaseRequest } from '../services/forecastingDbPersistService'
-import { StatusProcess } from '@prisma/client';
+import { StatusProcess, UserRole } from '@prisma/client';
 
 export class PrismaRepository {
 
-    async createImportInventory(dataArray: InventoryInterface[]){
-        await client.inventory.createMany({ data: dataArray });
-        return 
-    }
 
     async createImportHistoric(dataArray: HistoricSell[]){
-        await client.historic.createMany({data:dataArray})
+        await client.historic.createMany({data: dataArray})
         return 
     }
 
@@ -79,6 +74,31 @@ export class PrismaRepository {
             }
         })
 
+    }
+
+    async findUserByEmail(email: string){
+
+        const user = await client.user.findUnique({
+            where:{
+                email
+            }
+        })
+        return user
+    }
+
+    async createUser(name: string, email: string, password: string, role: UserRole){
+
+        const user = await client.user.create({
+            data:{
+                name,
+                email,
+                password,
+                role
+            }
+        })
+
+
+        return {user}
     }
         
     
